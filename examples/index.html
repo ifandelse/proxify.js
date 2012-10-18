@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        div {
+            font-size: 9pt;
+        }
+    </style>
+    <script type="text/javascript" src="../ext/underscore.js"></script>
+    <script type="text/javascript" src="../ext/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="../lib/proxify.js"></script>
+    <script type="text/javascript">
+
+        var person = {
+            firstName: "Jim",
+            lastName: "Cowart",
+            location: {
+                city: "Signal Mountain",
+                state: "TN",
+                zip: 37377
+            },
+            getFullName : function() {
+                return this.lastName + ", " + this.firstName;
+            },
+            family: [ "Stephanie", "James", "Nate" ]
+        };
+
+        var listenForTopLevel = false;
+        var listenForLocLevel = false;
+
+        var proxy = proxify(person, "person");
+
+        proxy._observe(function() {
+            if(listenForTopLevel)
+                $('body').append("<div><em>(top level)</em>&nbsp;<pre>" + JSON.stringify(arguments[0], "\t", 4) + "</pre></div>");
+        });
+
+        proxy.location._observe(function() {
+            if(listenForLocLevel)
+                $('body').append("<div><em>(location)</em>&nbsp;<pre>" + JSON.stringify(arguments[0], null, 4) + "</pre></div>");
+        });
+
+        $(function() {
+            $('body').append("<div>" + new Date() + "</div><br/>");
+
+            listenForTopLevel = true;
+            console.log(proxy.firstName);
+            console.log(proxy.lastName);
+            console.log(proxy.location.city);
+            console.log(proxy.location.state);
+            console.log(proxy.location.zip);
+            console.log(proxy.getFullName());
+            console.log(proxy.family);
+            console.log(proxy.family[1]);
+            console.log(proxy.family.length);
+            proxy.family[2] = "Nathaniel";
+            proxy.family.push("Amelia");
+            listenForTopLevel = false;
+
+            $('body').append("<hr />");
+            listenForLocLevel = true;
+            console.log(proxy.location.city);
+            console.log(proxy.location.state);
+            console.log(proxy.location.zip);
+            proxy.location.zip = 37378
+            listenForLocLevel = false;
+
+        });
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

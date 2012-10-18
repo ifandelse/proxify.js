@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="/ext/mocha.css" />
+</head>
+<body>
+<div id="mocha"></div>
+<script src="/ext/jquery-1.7.1.js"></script>
+<script src="/ext/underscore.js"></script>
+<script src="/ext/expect.js"></script>
+<script src="/ext/mocha.js"></script>
+<script type="text/javascript">
+    mocha.setup({ ui: 'bdd', timeout: 60000, ignoreLeaks: true });
+</script>
+<script src="/lib/proxify.js"></script>
+
+<!-- PRIMITIVE TESTS -->
+<script src="primitives/read/read_primitives.spec.js"></script>
+<script src="primitives/assignment/assign_primitives.spec.js"></script>
+
+<!-- ARRAY TESTS -->
+<script src="arrays/read/read_arrays_with_primitives.spec.js"></script>
+<script src="arrays/read/read_arrays_with_objects.spec.js"></script>
+<script src="arrays/read/read_arrays_with_arrays_of_primitives.js"></script>
+<script src="arrays/assignment/assign_arrays_with_primitives.spec.js"></script>
+<script src="arrays/assignment/assign_arrays_with_objects.spec.js"></script>
+
+<script type="text/javascript">
+    mocha.run();
+</script>
+</body>
+</html>
